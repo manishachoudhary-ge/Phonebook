@@ -22,6 +22,7 @@ function Navpb() {
          </div>
          {/* <button>Create contact</button> */}
         </div>
+        {/* {<NewContact />} */}
     </div>
   )
 }

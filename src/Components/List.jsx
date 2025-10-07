@@ -3,7 +3,7 @@ import React from 'react'
 function List() {
   return (
     <div>
-        {/* <table>
+        <table>
   <tr>
     <th>Name</th>
     <th>Phone Number</th>
@@ -12,7 +12,7 @@ function List() {
     <td> </td>
     <td></td>
   </tr>
-</table> */}
+</table>
     </div>
   )
 }
