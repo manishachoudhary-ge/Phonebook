@@ -1,21 +1,41 @@
 import React from 'react'
+import { useState } from 'react';
 
 function NewContact() {
+  const [showForm, setShowform] = useState(false);
+
+  const [name, setName] = useState("");
+  const [mobileno, setMobileno] = useState("");  
+  const [address, setAdress] = useState("");
+  const [work, setWork] = useState("");
+
+  const handlesubmit = (event)=>{
+    event.preventDefault();
+    console.log({name})
+  }
   return (
+
     <div>
-        <form action="">
-            <input type="text" placeholder='Enter Your Name'/>
-            <input type="tel" placeholder='Enter Your Mobile Number' />
-            <input type="text" placeholder='Enter your Address'/>
-            <input type="text" placeholder='enter the address' />
-            <select name="work" id="label">
+      <div>
+        <button onClick={()=>{setShowform(true)}}>Create Button</button>
+      </div>
+      
+        {showForm && <form onSubmit={handlesubmit}>
+          <div>
+            <label htmlFor="name">Name: </label>
+            <input type="text" value={name} onChange={(e)=> {setName(e.target.value)}} placeholder='Enter Your Name'/>
+            </div>
+            <input type="tel" value={mobileno} onChange={(e)=>{setMobileno(e.target.value)}} placeholder='Enter Your Mobile Number' />
+            <input type="text" value={address} onChange={(e)=>{setAdress(e.target.value)}} placeholder='Enter your Address'/>
+            <select name="work" value={work} onChange={(e)=>{ setWork(e.target.value)}} id="label">
                 <option value="work">Work</option>
                 <option value="school">School</option>
                 <option value="friends">Friends</option>
                 <option value="family">Family</option>
             </select>
+            <button type='submit'>Submit</button>
 
-        </form>
+        </form>}
     </div>
   )
 }
