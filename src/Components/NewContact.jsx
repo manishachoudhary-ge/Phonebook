@@ -1,7 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {createcontact} from '../features/contactButton';
 
 function NewContact() {
+  const contact = useSelector((state)=>{state.contacts.value});
+  const dispatch = useDispatch();
+
   const [showForm, setShowform] = useState(false);
 
   const [name, setName] = useState("");
