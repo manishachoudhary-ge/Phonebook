@@ -1,47 +1,113 @@
 import React from 'react'
 import { useState } from 'react';
+import { Button} from "@chakra-ui/react"
+import {Input,Select,Box,VStack,} from '@chakra-ui/react';
+import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import { useSelector, useDispatch } from 'react-redux';
-import {createcontact} from '../features/contactButton';
+import {createName, createMobileno, createAddress, creatework} from '../features/contactSlice';
 
 function NewContact() {
-  const contact = useSelector((state)=>{state.contacts.value});
+  const {name, mobileNo, address,work } = useSelector((state)=>state.contacts);
   const dispatch = useDispatch();
 
   const [showForm, setShowform] = useState(false);
 
-  const [name, setName] = useState("");
-  const [mobileno, setMobileno] = useState("");  
-  const [address, setAdress] = useState("");
-  const [work, setWork] = useState("");
-
   const handlesubmit = (event)=>{
     event.preventDefault();
-    console.log({name})
+    setShowform(false);
+    console.log({name, mobileNo, address, work});
+    
+   
   }
   return (
+  <Box p={4}> 
+      <Button onClick={() => setShowform(true)} colorScheme="teal"> 
+        Create Contact
+      </Button>
 
-    <div>
-      <div>
-        <button onClick={()=>{setShowform(true)}}>Create Button</button>
-      </div>
-      
-        {showForm && <form onSubmit={handlesubmit}>
-          <div>
-            <label htmlFor="name">Name: </label>
-            <input type="text" value={name} onChange={(e)=> {setName(e.target.value)}} placeholder='Enter Your Name'/>
-            </div>
-            <input type="tel" value={mobileno} onChange={(e)=>{setMobileno(e.target.value)}} placeholder='Enter Your Mobile Number' />
-            <input type="text" value={address} onChange={(e)=>{setAdress(e.target.value)}} placeholder='Enter your Address'/>
-            <select name="work" value={work} onChange={(e)=>{ setWork(e.target.value)}} id="label">
+      {showForm && (
+        <Box as="form" onSubmit={handlesubmit} mt={4} p={6} borderWidth="1px" borderRadius="lg" shadow="md"> 
+          <VStack spacing={4}>
+            <FormControl id="name"> 
+              <FormLabel>Name:</FormLabel>
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => dispatch(createName(e.target.value))}
+                placeholder="Enter Your Name"
+              />
+            </FormControl>
+
+            <FormControl id="mobileNo">
+              <FormLabel>Mobile Number:</FormLabel>
+              <Input
+                type="tel"
+                value={mobileNo}
+                onChange={(e) => dispatch(createMobileno(e.target.value))}
+                placeholder="Enter Your Mobile Number"
+              />
+            </FormControl>
+
+            <FormControl id="address">
+              <FormLabel>Address:</FormLabel>
+              <Input
+                type="text"
+                value={address}
+                onChange={(e) => dispatch(createAddress(e.target.value))}
+                placeholder="Enter your Address"
+              />
+            </FormControl>
+
+            <FormControl id="work">
+              <FormLabel>Work Category:</FormLabel>
+              <Select
+                name="work"
+                value={work}
+                onChange={(e) => dispatch(creatework(e.target.value))}
+                placeholder="Select Work Category" 
+              >
                 <option value="work">Work</option>
                 <option value="school">School</option>
                 <option value="friends">Friends</option>
                 <option value="family">Family</option>
-            </select>
-            <button type='submit'>Submit</button>
+              </Select>
+            </FormControl>
 
-        </form>}
-    </div>
+            <Button type="submit" colorScheme="blue" width="full"> 
+              Submit
+            </Button>
+          </VStack>
+        </Box>
+      )}
+    </Box>
+
+
+
+  
+
+    // <div>
+    //   <div>
+    //     <Button onClick={()=>{setShowform(true)}} >Create Contact</Button>
+    //     {/* <button onClick={()=>{setShowform(true)}}>Create Button</button> */}
+    //   </div>
+      
+    //     {showForm && <form onSubmit={handlesubmit} >
+    //       <div>
+    //         <label htmlFor="name">Name: </label>
+    //         <input type="text" value={name} onChange={(e)=> {dispatch(createName(e.target.value))}} placeholder='Enter Your Name'/>
+    //         </div>
+    //         <input type="tel" value={mobileNo} onChange={(e)=>{dispatch(createMobileno(e.target.value))}} placeholder='Enter Your Mobile Number' />
+    //         <input type="text" value={address} onChange={(e)=>{dispatch(createAddress(e.target.value))}} placeholder='Enter your Address'/>
+    //         <select name="work" value={work} onChange={(e)=>{ dispatch(creatework(e.target.value))}} id="label">
+    //             <option value="work">Work</option>
+    //             <option value="school">School</option>
+    //             <option value="friends">Friends</option>
+    //             <option value="family">Family</option>
+    //         </select>
+    //         <button type='submit'>Submit</button>
+
+    //     </form>}
+    // </div>
   )
 }
 
@@ -57,43 +123,34 @@ export default NewContact
 
 
 
-// import React, { useState } from 'react';
-// import TextField from '@mui/material/TextField';
-// import Button from '@mui/material/Button';
-// import Box from '@mui/material/Box';
-
-// function NewContact() {
-//     const [name, setName] = useState('');
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     console.log('Submitted name:', name);
-//   return (
-//     <div>NewContact</div>
-//   )
-// }
-// }
-// export default NewContact
-
-
-
-// function MyForm() {
-//     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 300 }}>
-//       <TextField
-//         label="Name"
-//         variant="outlined"
-//         value={name}
-//         onChange={(e) => setName(e.target.value)}
-//         fullWidth
-//       />
-//       <Button type="submit" variant="contained">
-//         Submit
-//       </Button>
-//     </Box>
-  
-//   };
 
 
 
 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

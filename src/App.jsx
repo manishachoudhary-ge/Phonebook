@@ -4,7 +4,7 @@ import List from './Components/List';
 import CreateButton from './Components/CreateButton';
 import NewContact from './Components/NewContact';
 
-import { Container, HStack, Heading, Input, Button } from "@chakra-ui/react";
+import { Container, HStack, Heading, Input, Button, Box } from "@chakra-ui/react";
 import './App.css'
 
 function App() {
@@ -16,9 +16,7 @@ function App() {
         <HStack w={"full"} spacing={4} justifyContent="space-between" >
         <Heading size="md">Phonebook</Heading>
         <Input w={230} placeholder='Search' />
-        <CreateButton /> 
-        {/* <NewContact /> This component is of react and form data will be update is here*/}
-        {/* <Button>Create Contact</Button> */}
+         <NewContact /> 
       </HStack>
       </Container>
 
