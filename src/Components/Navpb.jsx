@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react';
-import './logopb.css';
 import NewContact from './NewContact';
 
 

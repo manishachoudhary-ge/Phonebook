@@ -13,7 +13,8 @@ function NewContact() {
    const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const [showForm, setShowform] = useState(false);
-
+   
+  console.log({name});
   const handlesubmit = (event)=>{
     event.preventDefault();
     // setShowform(false);
@@ -22,7 +23,9 @@ function NewContact() {
     
    
   }
+  
   return (
+  
         <>
       <Button onClick={onOpen} colorScheme="teal">Create Contact</Button>
 
