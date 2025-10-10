@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import Navpb from './Components/Navpb';
-import List from './Components/List';
-import CreateButton from './Components/CreateButton';
+import List from './Components/ListConDis';
 import NewContact from './Components/NewContact';
 
-import { Container, HStack, Heading, Input, Button, Box } from "@chakra-ui/react";
+import { Container, HStack, Heading, Input, Button, Box, Flex } from "@chakra-ui/react";
 import './App.css'
 
 function App() {
@@ -12,13 +11,37 @@ function App() {
 
   return (
     <>
-      <Container W={"md"}>
-        <HStack w={"full"} spacing={4} justifyContent="space-between" >
-        <Heading size="md">Phonebook</Heading>
-        <Input w={230} placeholder='Search' />
-         <NewContact /> 
-      </HStack>
-      </Container>
+        <Flex m={5} justify={'space-between'}>
+          <Box >
+          <Heading size="md">Phonebook</Heading>
+          </Box>
+          <Box px={8}>
+            <Input placeholder='Search' />
+          </Box>
+          <Box>
+          <NewContact />
+          </Box>
+        </Flex>
+      <List />
+        
+      
+
+
+
+
+      {/* <Container maxW="container.sm" py={4}>
+        <HStack spacing={8} justifyContent={'space-evenly'} w="full">
+          <Box >
+          <Heading size="md">Phonebook</Heading>
+          </Box>
+          <Box flex="1" px={8}>
+            <Input placeholder='Search' />
+          </Box>
+          <Box>
+          <NewContact />
+          </Box>
+        </HStack>
+      </Container> */}
 
 
 
@@ -37,3 +60,14 @@ function App() {
 }
 
 export default App
+
+
+
+
+
+
+
+
+
+
+

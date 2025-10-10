@@ -16,16 +16,16 @@ export const contactSlice = createSlice({
     //   // state.value.push(action.payload)
     // },
     createName: (state, action) =>{
-      state.name += action.payload
+      state.name = action.payload
     },
     createMobileno: (state, action) =>{
-      state.mobileNo += action.payload
+      state.mobileNo = action.payload
     },
     createAddress: (state, action) =>{
-      state.address += action.payload
+      state.address = action.payload
     },
     creatework: (state, action) =>{
-      state.Work += action.payload
+      state.Work = action.payload
     }
   },
 })
