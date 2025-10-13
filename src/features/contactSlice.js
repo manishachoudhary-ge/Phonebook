@@ -23,15 +23,24 @@ export const contactSlice = createSlice({
     // },
     createContact: (state, action) =>{
       state.currentContact[action.payload.field] = action.payload.value;
+      
     },
     addContact: (state) =>{
-      state.contactList.push(state.currentContact);
-      state.currentContact = initialState.currentContact; // Reset currentContact after adding
-    }
+      // state.contactList.push(state.currentContact);
+      state.contactList.push({...state.currentContact, id: Date.now})
+      state.currentContact = initialState.currentContact;
+    },
+     updateContact: (state, action) => {
+      const updatedContact = action.payload;
+      const index = state.contactList.findIndex(contact => contact.id === updatedContact.id);
+      if (index !== -1) {
+        state.contactList[index] = updatedContact;
+      }
+    },
   },
 })
 
-export const { createContact, addContact } = contactSlice.actions
+export const { createContact, addContact, updateContact } = contactSlice.actions
 
 export default contactSlice.reducer
 

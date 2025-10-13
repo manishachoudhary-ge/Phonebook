@@ -3,6 +3,7 @@ import Navpb from './Components/Navpb';
 import List from './Components/ListConDis';
 import NewContact from './Components/NewContact';
 import ContactList from './Components/ContactList';
+import EditContact from './Components/EditContact';
 
 import { Container, HStack, Heading, Input, Button, Box, Flex } from "@chakra-ui/react";
 import './App.css'
@@ -25,6 +26,7 @@ function App() {
         </Flex>
       {/* <List /> */}
       <ContactList />
+      
         
       
 

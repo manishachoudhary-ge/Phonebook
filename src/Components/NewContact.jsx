@@ -1,5 +1,4 @@
 import React from 'react'
-import { useState } from 'react';
 import { Button} from "@chakra-ui/react"
 import {Input,Select,Box,VStack,Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
 ModalBody, ModalFooter, useDisclosure} from '@chakra-ui/react';
@@ -14,6 +13,14 @@ function NewContact() {
    const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const [showForm, setShowform] = useState(false);
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    const nameRegex = /^[a-zA-Z\s]*$/;
+
+    if (nameRegex.test(value)) {
+      dispatch(createContact({ field: 'name', value: value }));
+    }
+  };
    
  
   const handlesubmit = (event)=>{
@@ -83,7 +90,7 @@ function NewContact() {
                   <FormLabel>Name</FormLabel>
                   <Input
                     value={currentContact.name}
-                    onChange={(e) => dispatch(createContact({ field: 'name', value: e.target.value }))}
+                    onChange={handleNameChange}
                     placeholder="Enter your name"
                   />
                 </FormControl>
@@ -91,7 +98,7 @@ function NewContact() {
                 <FormControl isRequired>
                   <FormLabel>Mobile Number</FormLabel>
                   <Input
-                    type="tel"
+                    type="number"
                     value={currentContact.mobileNo}
                     onChange={(e) => dispatch(createContact({ field: 'mobileNo', value: e.target.value }))}
                     placeholder="Enter your mobile number"
