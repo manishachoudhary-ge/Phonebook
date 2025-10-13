@@ -5,24 +5,66 @@ import {Input,Select,Box,VStack,Modal, ModalOverlay, ModalContent, ModalHeader, 
 ModalBody, ModalFooter, useDisclosure} from '@chakra-ui/react';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import { useSelector, useDispatch } from 'react-redux';
-import {createName, createMobileno, createAddress, creatework} from '../features/contactSlice';
+import {createContact, addContact} from '../features/contactSlice';
+import { current } from '@reduxjs/toolkit';
 
 function NewContact() {
-  const {name, mobileNo, address,work } = useSelector((state)=>state.contacts);
+  const { currentContact  } = useSelector((state)=>state.contacts);
   const dispatch = useDispatch();
    const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const [showForm, setShowform] = useState(false);
    
-  console.log({name});
+ 
   const handlesubmit = (event)=>{
     event.preventDefault();
+     const { name, mobileNo, Work } = currentContact;
+
+  // Basic validation
+  if (!name.trim()) {
+    alert("Name is required");
+    return;
+  }
+
+  if (!mobileNo.trim()) {
+    alert("Mobile Number is required");
+    return;
+  }
+
+  if (!Work.trim()) {
+    alert("Work Category is required");
+    return;
+  }
+
+    dispatch(addContact());
     // setShowform(false);
-    console.log({name, mobileNo, address, work});
+    // console.log({name, mobileNo, address, work});
      onClose();
     
-   
   }
+
+   const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "phonebook_preset"); //  preset
+
+    try {
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dpmtrgjj6/image/upload", //  YOUR_CLOUD_NAME
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await res.json();
+      dispatch(createContact({ field: "avatar", value: data.secure_url }));
+    } catch (err) {
+      console.error("Upload failed:", err);
+    }
+  };
   
   return (
   
@@ -37,11 +79,11 @@ function NewContact() {
           <form onSubmit={handlesubmit}>
             <ModalBody>
               <VStack spacing={4}>
-                <FormControl isRequired>
+                <FormControl isRequired >
                   <FormLabel>Name</FormLabel>
                   <Input
-                    value={name}
-                    onChange={(e) => dispatch(createName(e.target.value))}
+                    value={currentContact.name}
+                    onChange={(e) => dispatch(createContact({ field: 'name', value: e.target.value }))}
                     placeholder="Enter your name"
                   />
                 </FormControl>
@@ -50,8 +92,8 @@ function NewContact() {
                   <FormLabel>Mobile Number</FormLabel>
                   <Input
                     type="tel"
-                    value={mobileNo}
-                    onChange={(e) => dispatch(createMobileno(e.target.value))}
+                    value={currentContact.mobileNo}
+                    onChange={(e) => dispatch(createContact({ field: 'mobileNo', value: e.target.value }))}
                     placeholder="Enter your mobile number"
                   />
                 </FormControl>
@@ -59,8 +101,8 @@ function NewContact() {
                 <FormControl>
                   <FormLabel>Address</FormLabel>
                   <Input
-                    value={address}
-                    onChange={(e) => dispatch(createAddress(e.target.value))}
+                    value={currentContact.address}
+                    onChange={(e) => dispatch(createContact({ field: 'address', value: e.target.value }))}
                     placeholder="Enter your address"
                   />
                 </FormControl>
@@ -68,8 +110,8 @@ function NewContact() {
                 <FormControl>
                   <FormLabel>Work Category</FormLabel>
                   <Select
-                    value={work}
-                    onChange={(e) => dispatch(creatework(e.target.value))}
+                    value={currentContact.Work}
+                    onChange={(e) => dispatch(createContact({ field: 'Work', value: e.target.value }))}
                     placeholder="Select work category"
                   >
                     <option value="work">Work</option>
@@ -77,6 +119,17 @@ function NewContact() {
                     <option value="friends">Friends</option>
                     <option value="family">Family</option>
                   </Select>
+                </FormControl>
+                 <FormControl>
+                  <FormLabel>Upload Avatar</FormLabel>
+                  <Input type="file" accept="image/*" onChange={handleFileUpload} />
+                  {currentContact.avatar && (
+                    <img
+                      src={currentContact.avatar}
+                      alt="avatar"
+                      style={{ width: "60px", height: "60px", borderRadius: "50%", marginTop: "5px" }}
+                    />)}
+
                 </FormControl>
               </VStack>
             </ModalBody>
