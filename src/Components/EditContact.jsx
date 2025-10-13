@@ -12,7 +12,6 @@ function EditContact({ contact, isOpen, onClose }) {
   useEffect(() => {
     setEditedContact(contact);
   }, [contact]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedContact({ ...editedContact, [name]: value });
