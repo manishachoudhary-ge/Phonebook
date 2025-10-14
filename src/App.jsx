@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Navpb from './Components/Navpb';
-import List from './Components/ListConDis';
 import NewContact from './Components/NewContact';
 import ContactList from './Components/ContactList';
 import EditContact from './Components/EditContact';

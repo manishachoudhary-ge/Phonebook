@@ -12,7 +12,6 @@ function NewContact() {
   const dispatch = useDispatch();
    const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const [showForm, setShowform] = useState(false);
   const handleNameChange = (e) => {
     const value = e.target.value;
     const nameRegex = /^[a-zA-Z\s]*$/;
@@ -47,8 +46,6 @@ function NewContact() {
   }
 
     dispatch(addContact());
-    // setShowform(false);
-    // console.log({name, mobileNo, address, work});
      onClose();
     
   }
@@ -59,11 +56,10 @@ function NewContact() {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "phonebook_preset"); //  preset
-
+    formData.append("upload_preset", "phonebook_preset"); 
     try {
       const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dpmtrgjj6/image/upload", //  YOUR_CLOUD_NAME
+        "https://api.cloudinary.com/v1_1/dpmtrgjj6/image/upload", 
         {
           method: "POST",
           body: formData,
