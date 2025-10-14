@@ -259,7 +259,7 @@ export default NewContact
     //         <input type="text" value={name} onChange={(e)=> {dispatch(createName(e.target.value))}} placeholder='Enter Your Name'/>
     //         </div>
     //         <input type="tel" value={mobileNo} onChange={(e)=>{dispatch(createMobileno(e.target.value))}} placeholder='Enter Your Mobile Number' />
-    //         <input type="text" value={address} onChange={(e)=>{dispatch(createAddress(e.target.value))}} placeholder='Enter your Address'/>
+    //         <input type="text" value={address} onChdispatchange={(e)=>{dispatch(createAddress(e.target.value))}} placeholder='Enter your Address'/>
     //         <select name="work" value={work} onChange={(e)=>{ dispatch(creatework(e.target.value))}} id="label">
     //             <option value="work">Work</option>
     //             <option value="school">School</option>
