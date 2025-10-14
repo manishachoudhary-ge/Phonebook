@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { IconButton , HStack } from '@chakra-ui/react'
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Table,
   Thead,
@@ -16,12 +16,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import EditContact from "./EditContact";
+import { deleteContact } from "../features/contactSlice";
 
 function ContactList() {
   const contactList = useSelector((state) => state.contacts.contactList);
+  const dispatch = useDispatch();
+
   const [selectedContact, setSelectedContact] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(contactList);
+  // console.log(contactList);
   
   const handleEdit = (contact) => {
     setSelectedContact(contact);
@@ -84,7 +87,7 @@ function ContactList() {
                   />
                      <IconButton
                     icon={<DeleteIcon />}
-                    colorScheme="red"
+                    colorScheme="black"
                     variant="ghost"
                     onClick={() => handleDelete(contact.id)}
                   />

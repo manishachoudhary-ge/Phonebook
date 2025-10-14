@@ -26,38 +26,8 @@ function App() {
         </Flex>
       {/* <List /> */}
       <ContactList />
-      
-        
-      
 
 
-
-
-      {/* <Container maxW="container.sm" py={4}>
-        <HStack spacing={8} justifyContent={'space-evenly'} w="full">
-          <Box >
-          <Heading size="md">Phonebook</Heading>
-          </Box>
-          <Box flex="1" px={8}>
-            <Input placeholder='Search' />
-          </Box>
-          <Box>
-          <NewContact />
-          </Box>
-        </HStack>
-      </Container> */}
-
-
-
-    {/* <div className='Appmaincom'>
-        <div></div>
-        <Navpb />
-        <List />
-        <inputSearch />
-        
-    
-        </div>
-      </div> */}
      
     </>
   )
