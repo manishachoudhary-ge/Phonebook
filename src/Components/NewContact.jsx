@@ -22,12 +22,12 @@ function NewContact() {
     }
   };
    
+  
  
   const handlesubmit = (event)=>{
     event.preventDefault();
      const { name, mobileNo, Work } = currentContact;
 
-  // Basic validation
   if (!name.trim()) {
     alert("Name is required");
     return;
@@ -36,7 +36,10 @@ function NewContact() {
   if (!mobileNo.trim()) {
     alert("Mobile Number is required");
     return;
-  }
+  }  else if (currentContact.mobileNo.length !== 10) {
+  alert("Mobile number must be exactly 10 digits");
+  return;
+}
 
   if (!Work.trim()) {
     alert("Work Category is required");
@@ -130,12 +133,14 @@ function NewContact() {
                  <FormControl>
                   <FormLabel>Upload Avatar</FormLabel>
                   <Input type="file" accept="image/*" onChange={handleFileUpload} />
-                  {currentContact.avatar && (
+                  {currentContact.avatar
+                   && (
                     <img
                       src={currentContact.avatar}
                       alt="avatar"
                       style={{ width: "60px", height: "60px", borderRadius: "50%", marginTop: "5px" }}
-                    />)}
+                    />
+                    )}
 
                 </FormControl>
               </VStack>

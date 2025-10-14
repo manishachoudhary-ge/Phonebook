@@ -27,20 +27,24 @@ export const contactSlice = createSlice({
     },
     addContact: (state) =>{
       // state.contactList.push(state.currentContact);
-      state.contactList.push({...state.currentContact, id: Date.now})
-      state.currentContact = initialState.currentContact;
+      state.contactList.push({...state.currentContact, id: Date.now()})
+      state.currentContact = {...initialState.currentContact};
     },
      updateContact: (state, action) => {
       const updatedContact = action.payload;
-      const index = state.contactList.findIndex(contact => contact.id === updatedContact.id);
-      if (index !== -1) {
-        state.contactList[index] = updatedContact;
-      }
+     state.contactList = state.contactList.map((contact) =>
+        contact.id === updatedContact.id ? updatedContact : contact
+      );
     },
+    deleteContact: (state, action) => {
+  const id = action.payload;
+  state.contactList = state.contactList.filter((contact) => contact.id !== id);
+},
+
   },
 })
 
-export const { createContact, addContact, updateContact } = contactSlice.actions
+export const { createContact, addContact, updateContact, deleteContact } = contactSlice.actions
 
 export default contactSlice.reducer
 

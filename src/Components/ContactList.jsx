@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { IconButton , HStack } from '@chakra-ui/react'
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
@@ -14,19 +15,34 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import NewContact from "./NewContact";
+import EditContact from "./EditContact";
 
 function ContactList() {
   const contactList = useSelector((state) => state.contacts.contactList);
+  const [selectedContact, setSelectedContact] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   console.log(contactList);
+  
+  const handleEdit = (contact) => {
+    setSelectedContact(contact);
+    setIsOpen(true);
+  };
 
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this contact?")) {
+      dispatch(deleteContact(id));
+    }
+  };
+  
   return (
+    <>
     <TableContainer>
       <Table variant="simple" size="md">
         <Thead>
           <Tr>
             <Th>Name</Th>
             <Th>Phone Number</Th>
+            <Th></Th>
           </Tr>
           <Tr fontWeight="light"> 
             <Th>Contacts ({contactList.length})</Th><Th></Th>
@@ -59,21 +75,20 @@ function ContactList() {
                   </Td>
                   <Td>{contact.mobileNo}</Td>
                   <Td textAlign="right">
-                    <HStack spacing={2} justifyContent="flex-end">
+                    {/* <HStack spacing={2} justifyContent="flex-end"> */}
                       <IconButton
-                        aria-label="Edit contact"
-                        icon={<EditIcon />}
-                        size="sm"
-                        // onClick={() => onEdit(contact)}
-                        onClick={()=> handleClick}
-                      />
-                      <IconButton
-                        aria-label="Delete contact"
-                        icon={<DeleteIcon />}
-                        size="sm"
-                        // onClick={() => handleDelete(contact.id)}
-                      />
-                    </HStack>
+                    icon={<EditIcon />}
+                    colorScheme="teal"
+                    size="sm"
+                    onClick={() => handleEdit(contact)}
+                  />
+                     <IconButton
+                    icon={<DeleteIcon />}
+                    colorScheme="red"
+                    variant="ghost"
+                    onClick={() => handleDelete(contact.id)}
+                  />
+                    {/* </HStack> */}
                   </Td>
                 </Tr>
               ))
@@ -81,6 +96,11 @@ function ContactList() {
         </Tbody>
       </Table>
     </TableContainer>
+    <EditContact 
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        contact={selectedContact}
+      />    </>
   );
 }
 
