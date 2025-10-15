@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button} from "@chakra-ui/react"
+import { AddIcon,  HStack, Icon, Text } from "@chakra-ui/icons";
 import {Input,Select,Box,VStack,Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
 ModalBody, ModalFooter, useDisclosure} from '@chakra-ui/react';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
@@ -75,7 +76,13 @@ function NewContact() {
   return (
   
         <>
-      <Button onClick={onOpen} colorScheme="teal">Create Contact</Button>
+      <Button onClick={onOpen} variant="outline" borderRadius="full"  borderColor="gray.300"  bg="white"  color="black" boxShadow="sm" px={4}
+      py={2}>
+         <HStack spacing={2}>
+        <Icon as={AddIcon} color="red.200" boxSize={3.5} />
+        <Text fontWeight="medium">Create contact</Text>
+      </HStack>
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
         <ModalOverlay />

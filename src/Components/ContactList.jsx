@@ -19,7 +19,7 @@ import EditContact from "./EditContact";
 import { deleteContact } from "../features/contactSlice";
 
 function ContactList() {
-  const contactList = useSelector((state) => state.contacts.contactList);
+  const {contactList, searchTerm } = useSelector((state) => state.contacts);
   const dispatch = useDispatch();
 
   const [selectedContact, setSelectedContact] = useState(null);
@@ -36,6 +36,9 @@ function ContactList() {
       dispatch(deleteContact(id));
     }
   };
+  const filteredContacts = contactList.filter((contact) =>
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   
   return (
     <>
@@ -48,19 +51,20 @@ function ContactList() {
             <Th></Th>
           </Tr>
           <Tr fontWeight="light"> 
-            <Th>Contacts ({contactList.length})</Th><Th></Th>
+            <Th>Contacts ({filteredContacts.length})</Th><Th></Th>
           </Tr>
           
         </Thead>
         <Tbody>
-          {contactList.length === 0 ? (
-            <Tr>
-              <Td colSpan={2} textAlign="center" color="gray.500">
-                No contacts added yet.
+          {filteredContacts.length === 0 ? (
+            <Tr >
+              <Td colSpan={3} textAlign="center" color="gray.500">
+                No contacts found.
+                {/*contactList.length === 0 ? "No contacts added yet." : "No contacts found."*/}
               </Td>
             </Tr>
           ) : (
-            contactList
+            filteredContacts
               .slice()
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((contact, index) => (
@@ -70,7 +74,6 @@ function ContactList() {
                       <Avatar
                         size="sm"
                         name={contact.name}
-                        bg="teal.400"
                         color="white"
                       />
                       <Text fontWeight="medium">{contact.name}</Text>
@@ -81,7 +84,7 @@ function ContactList() {
                     {/* <HStack spacing={2} justifyContent="flex-end"> */}
                       <IconButton
                     icon={<EditIcon />}
-                    colorScheme="teal"
+                    // colorScheme="teal"
                     size="sm"
                     onClick={() => handleEdit(contact)}
                   />
@@ -108,3 +111,10 @@ function ContactList() {
 }
 
 export default ContactList;
+
+
+
+
+
+
+

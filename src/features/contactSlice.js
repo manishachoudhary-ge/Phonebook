@@ -10,6 +10,7 @@ const initialState = {
     avatar: "",
   },
   contactList: [],
+  searchTerm: "",
 };
 
 export const contactSlice = createSlice({
@@ -40,11 +41,14 @@ export const contactSlice = createSlice({
   const id = action.payload;
   state.contactList = state.contactList.filter((contact) => contact.id !== id);
 },
+ searchContact: (state, action) =>{
+      state.searchTerm = action.payload;
+ }
 
   },
 })
 
-export const { createContact, addContact, updateContact, deleteContact } = contactSlice.actions
+export const { createContact, addContact, updateContact, deleteContact, searchContact } = contactSlice.actions
 
 export default contactSlice.reducer
 
