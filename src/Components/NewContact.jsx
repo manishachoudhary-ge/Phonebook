@@ -21,7 +21,21 @@ function NewContact() {
       dispatch(createContact({ field: 'name', value: value }));
     }
   };
-   
+  
+  // const API_BASE_URL = 'http://localhost:5000";
+
+  //     const fetchData = async () => {
+  //         try {
+  //           const response = await axios.post('http://localhost:5000/user/create'); 
+  //            return res.
+  //         } catch (err) {
+  //           console.log(err);
+  //       };
+  // useEffect(() => {
+  //       fetchData();
+  //     }, []);
+      // const createData = axios.get("http://localhost:5000/user")
+
   
  
   const handlesubmit = (event)=>{
@@ -52,7 +66,7 @@ function NewContact() {
   }
 
    const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]; 
     if (!file) return;
 
     const formData = new FormData();
@@ -136,14 +150,14 @@ function NewContact() {
                  <FormControl>
                   <FormLabel>Upload Avatar</FormLabel>
                   <Input type="file" accept="image/*" onChange={handleFileUpload} />
-                  {currentContact.avatar
+                  {/* {currentContact.avatar
                    && (
                     <img
                       src={currentContact.avatar}
                       alt="avatar"
                       style={{ width: "60px", height: "60px", borderRadius: "50%", marginTop: "5px" }}
                     />
-                    )}
+                    )} */}
 
                 </FormControl>
               </VStack>

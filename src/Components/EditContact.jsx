@@ -77,6 +77,7 @@ function EditContact({ isOpen, onClose, contact }) {
     alert("Mobile number must be exactly 10 digits");
     return false;
   }
+  
 
 
   return true; 

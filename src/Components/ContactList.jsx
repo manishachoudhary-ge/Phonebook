@@ -52,6 +52,7 @@ function ContactList() {
           </Tr>
           <Tr fontWeight="light"> 
             <Th>Contacts ({filteredContacts.length})</Th><Th></Th>
+            <Th></Th>
           </Tr>
           
         </Thead>
@@ -73,7 +74,8 @@ function ContactList() {
                     <Flex align="center" gap={3}>
                       <Avatar
                         size="sm"
-                        name={contact.name}
+                        // name={contact.name}
+                        src = {contact.avatar}
                         color="white"
                       />
                       <Text fontWeight="medium">{contact.name}</Text>
