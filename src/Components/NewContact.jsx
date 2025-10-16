@@ -1,16 +1,31 @@
 import React from 'react'
+import axios from "axios";
+import { useState } from "react";
 import { Button} from "@chakra-ui/react"
 import { AddIcon,  HStack, Icon, Text } from "@chakra-ui/icons";
 import {Input,Select,Box,VStack,Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
 ModalBody, ModalFooter, useDisclosure} from '@chakra-ui/react';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
-import { useSelector, useDispatch } from 'react-redux';
-import {createContact, addContact} from '../features/contactSlice';
-import { current } from '@reduxjs/toolkit';
+// import { useSelector, useDispatch } from 'react-redux';
+// import {createContact, addContact} from '../features/contactSlice';
+// import { current } from '@reduxjs/toolkit';
+const baseUrl = Process.env.baseUrl;
 
 function NewContact() {
-  const { currentContact  } = useSelector((state)=>state.contacts);
-  const dispatch = useDispatch();
+  // const { currentContact  } = useSelector((state)=>state.contacts);
+  // const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+  name: '',
+  mobileNo: '',
+  address: '',
+  workCategory: '',
+  avatar: ''
+});
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
    const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleNameChange = (e) => {
@@ -18,52 +33,84 @@ function NewContact() {
     const nameRegex = /^[a-zA-Z\s]*$/;
 
     if (nameRegex.test(value)) {
-      dispatch(createContact({ field: 'name', value: value }));
+      // dispatch(createContact({ field: 'name', value: value }));
+       handleChange(e);
     }
   };
-  
-  // const API_BASE_URL = 'http://localhost:5000";
-
-  //     const fetchData = async () => {
-  //         try {
-  //           const response = await axios.post('http://localhost:5000/user/create'); 
-  //            return res.
-  //         } catch (err) {
-  //           console.log(err);
-  //       };
-  // useEffect(() => {
-  //       fetchData();
-  //     }, []);
-      // const createData = axios.get("http://localhost:5000/user")
-
-  
- 
-  const handlesubmit = (event)=>{
-    event.preventDefault();
-     const { name, mobileNo, Work } = currentContact;
-
-  if (!name.trim()) {
-    alert("Name is required");
-    return;
-  }
-
-  if (!mobileNo.trim()) {
-    alert("Mobile Number is required");
-    return;
-  }  else if (currentContact.mobileNo.length !== 10) {
-  alert("Mobile number must be exactly 10 digits");
-  return;
-}
-
-  if (!Work.trim()) {
-    alert("Work Category is required");
-    return;
-  }
-
-    dispatch(addContact());
-     onClose();
     
-  }
+
+    const handlesubmit = async (e) => {
+    e.preventDefault();
+
+    const { name, mobileNo, address, workCategory, avatar } = formData;
+
+    if (!name.trim()) {
+      alert("Name is required");
+      return;
+    }
+    if (!mobileNo.trim() || mobileNo.length !== 10) {
+      alert("Mobile number must be exactly 10 digits");
+      return;
+    }
+    if (!workCategory.trim()) {
+      alert("Work Category is required");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/user/create", {
+        name,
+        MobileNo: mobileNo, 
+        address,
+        workCategory,
+        avatar
+      });
+
+      console.log("Contact created:", response.data);
+    
+      setFormData({
+        name: '',
+        mobileNo: '',
+        address: '',
+        workCategory: '',
+        avatar: ''
+      });
+      
+      onClose(); 
+      
+    } catch (error) {
+      console.error("Error creating contact:", error.response?.data || error.message);
+      alert("Failed to create contact. Please try again.");
+    }
+  };
+
+ 
+//   const handlesubmit = (event)=>{
+//     event.preventDefault();
+//      const { name, mobileNo, Work } = currentContact;
+
+//   if (!name.trim()) {
+//     alert("Name is required");
+//     return;
+//   }
+
+//   if (!mobileNo.trim()) {
+//     alert("Mobile Number is required");
+//     return;
+//   }  else if (currentContact.mobileNo.length !== 10) {
+//   alert("Mobile number must be exactly 10 digits");
+//   return;
+// }
+
+//   if (!Work.trim()) {
+//     alert("Work Category is required");
+//     return;
+//   }
+
+//     dispatch(addContact());
+//      onClose();
+    
+//   }
 
    const handleFileUpload = async (e) => {
     const file = e.target.files[0]; 
@@ -77,11 +124,13 @@ function NewContact() {
         "https://api.cloudinary.com/v1_1/dpmtrgjj6/image/upload", 
         {
           method: "POST",
-          body: formData,
+          body: formData, 
         }
       );
       const data = await res.json();
-      dispatch(createContact({ field: "avatar", value: data.secure_url }));
+      // dispatch(createContact({ field: "avatar", value: data.secure_url }));
+      setFormData(prev => ({ ...prev, avatar: data.secure_url }));
+    
     } catch (err) {
       console.error("Upload failed:", err);
     }
@@ -109,7 +158,9 @@ function NewContact() {
                 <FormControl isRequired >
                   <FormLabel>Name</FormLabel>
                   <Input
-                    value={currentContact.name}
+                  name="name"
+                    // value={currentContact.name}
+                    value={formData.name}
                     onChange={handleNameChange}
                     placeholder="Enter your name"
                   />
@@ -119,8 +170,11 @@ function NewContact() {
                   <FormLabel>Mobile Number</FormLabel>
                   <Input
                     type="number"
-                    value={currentContact.mobileNo}
-                    onChange={(e) => dispatch(createContact({ field: 'mobileNo', value: e.target.value }))}
+                    name='mobileNo'
+                    // value={currentContact.mobileNo}
+                    value={formData.mobileNo}
+                    // onChange={(e) => dispatch(createContact({ field: 'mobileNo', value: e.target.value }))}
+                    onChange={handleChange}
                     placeholder="Enter your mobile number"
                   />
                 </FormControl>
@@ -128,8 +182,11 @@ function NewContact() {
                 <FormControl>
                   <FormLabel>Address</FormLabel>
                   <Input
-                    value={currentContact.address}
-                    onChange={(e) => dispatch(createContact({ field: 'address', value: e.target.value }))}
+                    name='address'
+                    // value={currentContact.address}
+                    value={formData.address}
+                    // onChange={(e) => dispatch(createContact({ field: 'address', value: e.target.value }))}
+                    onChange={handleChange}
                     placeholder="Enter your address"
                   />
                 </FormControl>
@@ -137,8 +194,11 @@ function NewContact() {
                 <FormControl>
                   <FormLabel>Work Category</FormLabel>
                   <Select
-                    value={currentContact.Work}
-                    onChange={(e) => dispatch(createContact({ field: 'Work', value: e.target.value }))}
+                  name='workCategory'
+                    // value={currentContact.Work}
+                    value={formData.workCategory}
+                    // onChange={(e) => dispatch(createContact({ field: 'Work', value: e.target.value }))}
+                    onChange={handleChange}
                     placeholder="Select work category"
                   >
                     <option value="work">Work</option>
@@ -154,6 +214,7 @@ function NewContact() {
                    && (
                     <img
                       src={currentContact.avatar}
+                      src={formData.avatar}
                       alt="avatar"
                       style={{ width: "60px", height: "60px", borderRadius: "50%", marginTop: "5px" }}
                     />

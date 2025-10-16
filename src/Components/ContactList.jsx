@@ -1,8 +1,10 @@
 import React from "react";
-import { useState } from "react";
 import { IconButton , HStack } from '@chakra-ui/react'
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+// import axios from "axios";
+
 import {
   Table,
   Thead,
@@ -17,6 +19,44 @@ import {
 } from "@chakra-ui/react";
 import EditContact from "./EditContact";
 import { deleteContact } from "../features/contactSlice";
+// const [contactList, setContactList] = useState([]);
+// useEffect(() => {
+//   const fetchContacts = async () => {
+//     try {
+//       const res = await axios.get("http://localhost:5000/user/list");
+//       setContactList(res.data.user); 
+//     } catch (err) {
+//       console.error("Error fetching contacts:", err);
+//     }
+//   };
+
+//   fetchContacts();
+// }, []);
+// const handleDelete = async (id) => {
+//   if (window.confirm("Are you sure?")) {
+//     try {
+//       await axios.post(`http://localhost:5000/user/delete/${id}`);
+//       setContactList(contactList.filter((c) => c._id !== id)); 
+//     } catch (err) {
+//       console.error("Delete failed:", err);
+//     }
+//   }
+// };
+
+// const handleUpdate = async () => {
+//   if (!validate()) return;
+
+//   try {
+//     const res = await axios.post(`http://localhost:5000/user/update/${editedContact._id}`, {
+//       ...editedContact
+//     });
+//     console.log("Updated:", res.data);
+//     onClose();
+//   } catch (err) {
+//     console.error("Update failed:", err);
+//   }
+// };
+
 
 function ContactList() {
   const {contactList, searchTerm } = useSelector((state) => state.contacts);

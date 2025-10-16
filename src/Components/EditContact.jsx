@@ -16,11 +16,11 @@ function EditContact({ isOpen, onClose, contact }) {
   
 
   useEffect(() => {
-    if (contact) {
+    if (isOpen && contact) {
       setEditedContact(contact);
       setPreview(contact.avatar || '');
     }
-  }, [contact]);
+  }, [isOpen,contact]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +56,11 @@ function EditContact({ isOpen, onClose, contact }) {
     dispatch(updateContact(editedContact));
     onClose();
   };
+  const handleCancel = () => {
+  setEditedContact(contact); 
+  setPreview(contact.avatar || '');
+  onClose();
+};
 
   if (!contact) return null;
 
@@ -77,11 +82,17 @@ function EditContact({ isOpen, onClose, contact }) {
     alert("Mobile number must be exactly 10 digits");
     return false;
   }
+  if (!editedContact.address || editedContact.address.trim() === '') {
+    alert("Address number is required");
+    return false;
+  }
   
 
 
   return true; 
 };
+
+
 
 
   return (
@@ -168,7 +179,7 @@ function EditContact({ isOpen, onClose, contact }) {
           <Button colorScheme="blue" mr={3} onClick={handleUpdate}>
             Save Changes
           </Button>
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="ghost" onClick={handleCancel}>
             Cancel
           </Button>
         </ModalFooter>
