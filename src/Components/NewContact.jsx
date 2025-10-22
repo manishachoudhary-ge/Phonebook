@@ -9,9 +9,10 @@ import { FormControl, FormLabel } from '@chakra-ui/form-control';
 // import { useSelector, useDispatch } from 'react-redux';
 // import {createContact, addContact} from '../features/contactSlice';
 // import { current } from '@reduxjs/toolkit';
-const baseUrl = Process.env.baseUrl;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
-function NewContact() {
+
+function NewContact({ addContactToList, contacts }) {
   // const { currentContact  } = useSelector((state)=>state.contacts);
   // const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -52,13 +53,21 @@ const handleChange = (e) => {
       alert("Mobile number must be exactly 10 digits");
       return;
     }
+  //   const isDuplicate = contacts.some(
+  //   (contact) => contact.mobileNo === mobileNo
+  // );
+
+  // if (isDuplicate) {
+  //   alert("A contact with this mobile number already exists.");
+  //   return;
+  // }
     if (!workCategory.trim()) {
       alert("Work Category is required");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/user/create", {
+      const response = await axios.post(`${baseUrl}/create`, {
         name,
         MobileNo: mobileNo, 
         address,
@@ -67,6 +76,12 @@ const handleChange = (e) => {
       });
 
       console.log("Contact created:", response.data);
+
+      const created = response.data.user;
+      console.log(created);
+      if (created) {
+        addContactToList(created);
+      }
     
       setFormData({
         name: '',
@@ -79,7 +94,7 @@ const handleChange = (e) => {
       onClose(); 
       
     } catch (error) {
-      console.error("Error creating contact:", error.response?.data || error.message);
+      console.error("Error creating contact:", error.message); /*error.response?.data || */
       alert("Failed to create contact. Please try again.");
     }
   };
@@ -135,6 +150,7 @@ const handleChange = (e) => {
       console.error("Upload failed:", err);
     }
   };
+  
   
   return (
   
@@ -234,73 +250,6 @@ const handleChange = (e) => {
         </ModalContent>
       </Modal>
     </>
-
-
-
-
-
-
-
-  // <Box p={4}> 
-  //     <Button onClick={() => setShowform(true)} colorScheme="teal"> 
-  //       Create Contact
-  //     </Button>
-
-  //     {showForm && (
-  //       <Box as="form" onSubmit={handlesubmit} mt={4} p={6} borderWidth="1px" borderRadius="lg" shadow="md"> 
-  //         <VStack spacing={4}>
-  //           <FormControl id="name"> 
-  //             <FormLabel>Name:</FormLabel>
-  //             <Input
-  //               type="text"
-  //               value={name}
-  //               onChange={(e) => dispatch(createName(e.target.value))}
-  //               placeholder="Enter Your Name"
-  //             />
-  //           </FormControl>
-
-  //           <FormControl id="mobileNo">
-  //             <FormLabel>Mobile Number:</FormLabel>
-  //             <Input
-  //               type="tel"
-  //               value={mobileNo}
-  //               onChange={(e) => dispatch(createMobileno(e.target.value))}
-  //               placeholder="Enter Your Mobile Number"
-  //             />
-  //           </FormControl>
-
-  //           <FormControl id="address">
-  //             <FormLabel>Address:</FormLabel>
-  //             <Input
-  //               type="text"
-  //               value={address}
-  //               onChange={(e) => dispatch(createAddress(e.target.value))}
-  //               placeholder="Enter your Address"
-  //             />
-  //           </FormControl>
-
-  //           <FormControl id="work">
-  //             <FormLabel>Work Category:</FormLabel>
-  //             <Select
-  //               name="work"
-  //               value={work}
-  //               onChange={(e) => dispatch(creatework(e.target.value))}
-  //               placeholder="Select Work Category" 
-  //             >
-  //               <option value="work">Work</option>
-  //               <option value="school">School</option>
-  //               <option value="friends">Friends</option>
-  //               <option value="family">Family</option>
-  //             </Select>
-  //           </FormControl>
-
-  //           <Button type="submit" colorScheme="blue" width="full"> 
-  //             Submit
-  //           </Button>
-  //         </VStack>
-  //       </Box>
-  //     )}
-  //   </Box>
     
   )
 }

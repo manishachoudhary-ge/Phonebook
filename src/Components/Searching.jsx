@@ -3,17 +3,17 @@ import { Box, } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
 import { CloseButton, InputLeftElement, Input, InputGroup } from "@chakra-ui/react"
-import { useDispatch, useSelector } from 'react-redux';
-import { searchContact } from '../features/contactSlice';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { searchContact } from '../features/contactSlice';
 
-function Searching() {
-  const searchTerm = useSelector((state) => state.contacts.searchTerm);
-  const dispatch = useDispatch();
+function Searching({ searchTerm, onSearchChange }) {
+  // const searchTerm = useSelector((state) => state.contacts.searchTerm);
+  // const dispatch = useDispatch();
 
   const handleSearchChange = (e) =>{
-    dispatch(searchContact(e.target.value));
+    // dispatch(searchContact(e.target.value));
   }
-  return (
+  return ( 
         <Box w={300} mb={4}>
          <InputGroup>
           <InputLeftElement pointerEvents="none">
@@ -22,7 +22,7 @@ function Searching() {
       <Input
         placeholder="Search"
         value={searchTerm}
-        onChange={handleSearchChange}
+        onChange={onSearchChange}
         pl="35px"
       />
       </InputGroup>

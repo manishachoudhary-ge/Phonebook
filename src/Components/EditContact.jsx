@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
   ModalBody, ModalFooter, Button, FormControl, FormLabel,
   Input, Select, VStack, HStack, Avatar
 } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
-import { updateContact } from '../features/contactSlice';
+// import { useDispatch } from 'react-redux';
+// import { updateContact } from '../features/contactSlice';
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
-function EditContact({ isOpen, onClose, contact }) {
-  const dispatch = useDispatch();
+
+function EditContact({ isOpen, onClose, contact, onUpdate }) {
+  // const dispatch = useDispatch();
   const [editedContact, setEditedContact] = useState(contact || {});
   const [preview, setPreview] = useState(contact?.avatar || ''); 
   const [errors, setErrors] = useState({ name: "", mobileNo: "",});
@@ -51,10 +54,23 @@ function EditContact({ isOpen, onClose, contact }) {
     }
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
      if (!validate()) return;
-    dispatch(updateContact(editedContact));
+    // dispatch(updateContact(editedContact));
+    try{
+      const res = await axios.post(`${baseUrl}/update/${editedContact._id}`, editedContact);
+      console.log("Updated contact:", res.data);
+      if (onUpdate) {
+      onUpdate(res.data.updatedUser);
+    }
     onClose();
+
+    }catch(err){
+      onsole.error("Update failed:", err);
+    alert("Failed to update contact");
+
+    }
+    
   };
   const handleCancel = () => {
   setEditedContact(contact); 

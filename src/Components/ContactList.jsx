@@ -1,9 +1,9 @@
 import React from "react";
 import { IconButton , HStack } from '@chakra-ui/react'
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 import {
   Table,
@@ -19,6 +19,8 @@ import {
 } from "@chakra-ui/react";
 import EditContact from "./EditContact";
 import { deleteContact } from "../features/contactSlice";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 // const [contactList, setContactList] = useState([]);
 // useEffect(() => {
 //   const fetchContacts = async () => {
@@ -58,9 +60,9 @@ import { deleteContact } from "../features/contactSlice";
 // };
 
 
-function ContactList() {
-  const {contactList, searchTerm } = useSelector((state) => state.contacts);
-  const dispatch = useDispatch();
+function ContactList({ contacts = [],  updateContactInList, removeContactFromList }) {
+  // const {contactList, searchTerm } = useSelector((state) => state.contacts);
+  // const dispatch = useDispatch();
 
   const [selectedContact, setSelectedContact] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -71,15 +73,23 @@ function ContactList() {
     setIsOpen(true);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this contact?")) {
-      dispatch(deleteContact(id));
+  const handleDelete = async (id) => {
+  if (window.confirm("Are you sure you want to delete this contact?")) {
+    try {
+      await axios.post(`${baseUrl}/delete/${id}`);  
+      removeContactFromList(id);
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Failed to delete contact.");
     }
-  };
-  const filteredContacts = contactList.filter((contact) =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
+  }
+};
+  // const filteredContacts = contactList.filter((contact) =>
+  //   contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+  const filteredContacts = contacts;
+  console.log(filteredContacts);
+
   return (
     <>
     <TableContainer>
@@ -121,7 +131,7 @@ function ContactList() {
                       <Text fontWeight="medium">{contact.name}</Text>
                     </Flex>
                   </Td>
-                  <Td>{contact.mobileNo}</Td>
+                  <Td>{contact.MobileNo}</Td>
                   <Td textAlign="right">
                     {/* <HStack spacing={2} justifyContent="flex-end"> */}
                       <IconButton
@@ -134,7 +144,7 @@ function ContactList() {
                     icon={<DeleteIcon />}
                     colorScheme="black"
                     variant="ghost"
-                    onClick={() => handleDelete(contact.id)}
+                    onClick={() => handleDelete(contact._id)}
                   />
                     {/* </HStack> */}
                   </Td>
@@ -148,6 +158,7 @@ function ContactList() {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         contact={selectedContact}
+        onUpdate={updateContactInList}
       />    </>
   );
 }
