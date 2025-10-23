@@ -20,6 +20,7 @@ function EditContact({ isOpen, onClose, contact, onUpdate }) {
 
   useEffect(() => {
     if (isOpen && contact) {
+      // console.log("Contact prop:", contact); 
       setEditedContact(contact);
       setPreview(contact.avatar || '');
     }
@@ -90,11 +91,11 @@ function EditContact({ isOpen, onClose, contact, onUpdate }) {
     return false;
   }
 
-  if (!editedContact.mobileNo || editedContact.mobileNo.trim() === '') {
+  if (!editedContact.MobileNo || editedContact.MobileNo.toString().trim() === '') {
     alert("Mobile number is required");
     return false;
   }
-  if (!/^\d{10}$/.test(editedContact.mobileNo)) {
+  if (!/^\d{10}$/.test(editedContact.MobileNo)) {
     alert("Mobile number must be exactly 10 digits");
     return false;
   }
@@ -156,9 +157,9 @@ function EditContact({ isOpen, onClose, contact, onUpdate }) {
             <FormControl isRequired>
               <FormLabel>Phone Number</FormLabel>
               <Input
-              type="number"
-                name="mobileNo"
-                value={editedContact.mobileNo}
+              type="Number"
+                name="MobileNo"
+                value={editedContact.MobileNo}
                 onChange={handleInputChange}
               />
                {errors.mobileNo && (
