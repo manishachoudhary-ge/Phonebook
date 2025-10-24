@@ -15,7 +15,7 @@ function NewContact({ addContactToList, contacts }) {
   // const { currentContact  } = useSelector((state)=>state.contacts);
   // const dispatch = useDispatch();
  const [loading, setLoading] = useState(false);
-
+ const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({
   name: '',
   mobileNo: '',
@@ -27,8 +27,6 @@ const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -43,7 +41,6 @@ const handleChange = (e) => {
 
     const handlesubmit = async (e) => {
     e.preventDefault();
-
     if (loading) return; 
     setLoading(true);
 

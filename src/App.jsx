@@ -28,7 +28,7 @@ function App() {
       setContacts(res.data.users);
       setCurrentPage(res.data.page);
       setTotalPages(res.data.totalPages);
-      setTotalContacts(res.data.totalUsers) //total contact cnt
+      setTotalContacts(res.data.totalUsers) //total contact count
         // const res = await axios.get(`${baseUrl}/list`);
         // if (res.data.user) {
         //   setContacts(res.data.user);
@@ -52,7 +52,12 @@ function App() {
 };
 
    const addContactToList = (newContact) => {
-    setContacts(prev => [...prev, newContact]);
+    setContacts(prev => {
+      const updated = [...prev, newContact];
+      updated.sort((a, b) => a.name.localeCompare(b.name));
+      return updated;
+    });
+    setTotalContacts(prev => prev + 1);
   };
 
   const updateContactInList = (updatedContact) => {
@@ -65,6 +70,7 @@ function App() {
 
 const removeContactFromList = (id) => {
   setContacts(prev => prev.filter(contact => contact._id !== id));
+    setTotalContacts(prev => prev - 1);
 };
 
  const handleSearchChange = (e) => {
