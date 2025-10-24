@@ -116,8 +116,8 @@ function ContactList({ contacts = [],  totalContacts = 0, updateContactInList, r
             </Tr>
           ) : (
             filteredContacts
-              .slice()
-              .sort((a, b) => a.name.localeCompare(b.name))
+              // .slice()
+              // .sort((a, b) => a.name.localeCompare(b.name))
               .map((contact, index) => (
                 <Tr key={index} _hover={{ bg: "gray.50" }}>
                   <Td>
