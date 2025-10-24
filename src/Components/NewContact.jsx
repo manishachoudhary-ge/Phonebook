@@ -11,10 +11,11 @@ import { FormControl, FormLabel } from '@chakra-ui/form-control';
 // import { current } from '@reduxjs/toolkit';
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
-
 function NewContact({ addContactToList, contacts }) {
   // const { currentContact  } = useSelector((state)=>state.contacts);
   // const dispatch = useDispatch();
+ const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
   name: '',
   mobileNo: '',
@@ -43,7 +44,12 @@ const handleChange = (e) => {
     const handlesubmit = async (e) => {
     e.preventDefault();
 
-    const { name, mobileNo, address, workCategory, avatar } = formData;
+    if (loading) return; 
+    setLoading(true);
+
+    
+    const contactToCreate = { ...formData };
+    const { name, mobileNo, address, workCategory, avatar } = contactToCreate;
 
     if (!name.trim()) {
       alert("Name is required");
@@ -65,6 +71,9 @@ const handleChange = (e) => {
       alert("Work Category is required");
       return;
     }
+    console.log("Sending contact data:", contactToCreate);
+    // console.log("Sending contact data:", { name, mobileNo, address, workCategory, avatar });
+
 
     try {
       const response = await axios.post(`${baseUrl}/create`, {
@@ -74,15 +83,14 @@ const handleChange = (e) => {
         workCategory,
         avatar
       });
+      // console.log("Contact created:", response.data);
 
-      console.log("Contact created:", response.data);
-
-      const created = response.data.user;
-      console.log(created);
+      const created = response.data.data;
+      // console.log("To check key :",created);
       if (created) {
-        addContactToList(created);
+        await addContactToList(created);
+        // alert("Contact created successfully!");
       }
-    
       setFormData({
         name: '',
         mobileNo: '',
@@ -96,6 +104,8 @@ const handleChange = (e) => {
     } catch (error) {
       console.error("Error creating contact:", error.message); /*error.response?.data || */
       alert("Failed to create contact. Please try again.");
+    }finally {
+      setLoading(false); 
     }
   };
 
@@ -185,7 +195,7 @@ const handleChange = (e) => {
                 <FormControl isRequired>
                   <FormLabel>Mobile Number</FormLabel>
                   <Input
-                    type="number"
+                    type="tel"
                     name='mobileNo'
                     // value={currentContact.mobileNo}
                     value={formData.mobileNo}
@@ -241,7 +251,7 @@ const handleChange = (e) => {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue" type="submit" mr={3}>
+              <Button colorScheme="blue" type="submit" mr={3} isLoading={loading} >
                 Submit
               </Button>
               <Button onClick={onClose}>Cancel</Button>

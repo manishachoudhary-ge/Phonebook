@@ -60,7 +60,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 // };
 
 
-function ContactList({ contacts = [],  updateContactInList, removeContactFromList }) {
+function ContactList({ contacts = [],  totalContacts = 0, updateContactInList, removeContactFromList }) {
   // const {contactList, searchTerm } = useSelector((state) => state.contacts);
   // const dispatch = useDispatch();
 
@@ -101,7 +101,7 @@ function ContactList({ contacts = [],  updateContactInList, removeContactFromLis
             <Th></Th>
           </Tr>
           <Tr fontWeight="light"> 
-            <Th>Contacts ({filteredContacts.length})</Th><Th></Th>
+            <Th>Contacts ({totalContacts})</Th><Th></Th> 
             <Th></Th>
           </Tr>
           
