@@ -92,8 +92,8 @@ function ContactList({ contacts = [],  totalContacts = 0, updateContactInList, r
 
   return (
     <>
-    <TableContainer>
-      <Table variant="simple" size="md">
+    <TableContainer width="100%" minH="300px" >
+      <Table variant="simple" size="md" tableLayout="fixed" >
         <Thead>
           <Tr>
             <Th>Name</Th>
