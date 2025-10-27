@@ -14,8 +14,9 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 function NewContact({ addContactToList, contacts }) {
   // const { currentContact  } = useSelector((state)=>state.contacts);
   // const dispatch = useDispatch();
- const [loading, setLoading] = useState(false);
+ const [uploading, setUploading] = useState(false);
  const { isOpen, onOpen, onClose } = useDisclosure();
+//  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
   name: '',
   mobileNo: '',
@@ -41,8 +42,7 @@ const handleChange = (e) => {
 
     const handlesubmit = async (e) => {
     e.preventDefault();
-    if (loading) return; 
-    setLoading(true);
+   
 
     
     const contactToCreate = { ...formData };
@@ -85,7 +85,9 @@ const handleChange = (e) => {
       const created = response.data.data;
       // console.log("To check key :",created);
       if (created) {
-        await addContactToList(created);
+        // await addContactToList(created);
+        await addContactToList();
+
         // alert("Contact created successfully!");
       }
       setFormData({
@@ -99,10 +101,12 @@ const handleChange = (e) => {
       onClose(); 
       
     } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert(error.response.data.message);
+      } else{
       console.error("Error creating contact:", error.message); /*error.response?.data || */
       alert("Failed to create contact. Please try again.");
-    }finally {
-      setLoading(false); 
+      }
     }
   };
 
@@ -138,6 +142,8 @@ const handleChange = (e) => {
     const file = e.target.files[0]; 
     if (!file) return;
 
+     setUploading(true);
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "phonebook_preset"); 
@@ -155,7 +161,9 @@ const handleChange = (e) => {
     
     } catch (err) {
       console.error("Upload failed:", err);
-    }
+    }finally {
+    setUploading(false);
+  }
   };
   
   
@@ -248,7 +256,7 @@ const handleChange = (e) => {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue" type="submit" mr={3} isLoading={loading} >
+              <Button colorScheme="blue" type="submit" mr={3} isLoading={uploading} disabled={uploading}>
                 Submit
               </Button>
               <Button onClick={onClose}>Cancel</Button>

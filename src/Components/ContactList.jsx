@@ -92,17 +92,18 @@ function ContactList({ contacts = [],  totalContacts = 0, updateContactInList, r
 
   return (
     <>
-    <TableContainer width="100%" minH="300px" >
-      <Table variant="simple" size="md" tableLayout="fixed" >
+    <TableContainer width="100%" minH="300px" tableLayout="fixed">
+      <Table variant="simple" size="md" >
         <Thead>
           <Tr>
-            <Th>Name</Th>
-            <Th>Phone Number</Th>
-            <Th></Th>
+            <Th width="40%">Name</Th>
+            <Th width="30%">Phone Number</Th>
+            <Th width="20%"></Th>
           </Tr>
           <Tr fontWeight="light"> 
-            <Th>Contacts ({totalContacts})</Th><Th></Th> 
-            <Th></Th>
+            <Th colSpan={3}>Contacts ({totalContacts})</Th>
+            {/* <Th></Th> 
+            <Th></Th> */}
           </Tr>
           
         </Thead>

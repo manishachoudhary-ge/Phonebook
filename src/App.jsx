@@ -45,18 +45,20 @@ function App() {
     await fetchContacts(totalPages);
   };
 
+
   const handlePageChange = (page) => {
   if (page >= 1 && page <= totalPages) {
     setCurrentPage(page);
   }
 };
 
-   const addContactToList = (newContact) => {
-    setContacts(prev => {
-      const updated = [...prev, newContact];
-      updated.sort((a, b) => a.name.localeCompare(b.name));
-      return updated;
-    });
+   const addContactToList = async (newContact) => {
+    await fetchContacts();
+    // setContacts(prev => {
+    //   const updated = [...prev, newContact];
+    //   updated.sort((a, b) => a.name.localeCompare(b.name));
+    //   return updated;
+    // });
     setTotalContacts(prev => prev + 1);
   };
 
